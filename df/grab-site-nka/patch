@@ -1,0 +1,12 @@
+--- /usr/local/lib/python3.7/site-packages/wpull/protocol/http/stream.py.orig
++++ /usr/local/lib/python3.7/site-packages/wpull/protocol/http/stream.py
+@@ -209,6 +209,9 @@ class Stream(object):
+         if not self._keep_alive or should_close:
+             _logger.debug('Not keep-alive. Closing connection.')
+             self.close()
++        elif response.status_code < 200 or response.status_code >= 400:
++            _logger.warning('Response code outside range (200-399), closing connection.')
++            self.close()
+
+     @asyncio.coroutine
+     def _read_body_until_close(self, response, file):
