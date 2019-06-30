@@ -1,0 +1,50 @@
+--- wget.orig/configure
++++ wget/configure
+@@ -36743,15 +36743,15 @@
+ fi
+ 
+ else
+-  ac_fn_c_check_header_mongrel "$LINENO" "lua5.1/lua.h" "ac_cv_header_lua5_1_lua_h" "$ac_includes_default"
++  ac_fn_c_check_header_mongrel "$LINENO" "luajit-2.0/lua.h" "ac_cv_header_lua5_1_lua_h" "$ac_includes_default"
+ if test "x$ac_cv_header_lua5_1_lua_h" = xyes; then :
+-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for lua_newstate in -llua5.1" >&5
+-$as_echo_n "checking for lua_newstate in -llua5.1... " >&6; }
++  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for lua_newstate in -lluajit-5.1" >&5
++$as_echo_n "checking for lua_newstate in -lluajit-5.1... " >&6; }
+ if ${ac_cv_lib_lua5_1_lua_newstate+:} false; then :
+   $as_echo_n "(cached) " >&6
+ else
+   ac_check_lib_save_LIBS=$LIBS
+-LIBS="-llua5.1 -lm $LIBS"
++LIBS="-lluajit-5.1 -lm $LIBS"
+ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+ 
+@@ -36782,8 +36782,8 @@
+ { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_lua5_1_lua_newstate" >&5
+ $as_echo "$ac_cv_lib_lua5_1_lua_newstate" >&6; }
+ if test "x$ac_cv_lib_lua5_1_lua_newstate" = xyes; then :
+-  LIBS="${LIBS} -lm -ldl -llua5.1"
+-                     CPPFLAGS="${CPPFLAGS} -I/usr/include/lua5.1"
++  LIBS="${LIBS} -lm -ldl -lluajit-5.1"
++                     CPPFLAGS="${CPPFLAGS} -I/usr/include/luajit-2.0"
+ 
+ $as_echo "#define ENABLE_LUA 1" >>confdefs.h
+ 
+--- wget.orig/configure.ac
++++ wget/configure.ac
+@@ -556,10 +556,10 @@
+                   ], [
+                    AC_MSG_ERROR([lua not found])
+                   ], -lm),
+-                AC_CHECK_HEADER(lua5.1/lua.h,
+-                  AC_CHECK_LIB(lua5.1, lua_newstate,
+-                    [LIBS="${LIBS} -lm -ldl -llua5.1"
+-                     CPPFLAGS="${CPPFLAGS} -I/usr/include/lua5.1"
++                AC_CHECK_HEADER(luajit-2.0/lua.h,
++                  AC_CHECK_LIB(luajit-5.1, lua_newstate,
++                    [LIBS="${LIBS} -lm -ldl -lluajit-5.1"
++                     CPPFLAGS="${CPPFLAGS} -I/usr/include/luajit-2.0"
+                      AC_DEFINE([ENABLE_LUA], 1,
+                                [Define if Lua is available.])
+                     ], [
