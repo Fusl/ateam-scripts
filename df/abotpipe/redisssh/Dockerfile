@@ -1,0 +1,4 @@
+FROM debian:stretch-slim
+RUN DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-unsafe-io update
+RUN DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-unsafe-io install openssh-client
+ENTRYPOINT ["ssh", "-oPasswordAuthentication=no", "-oKbdInteractiveAuthentication=no", "-oChallengeResponseAuthentication=no", "-oUseRoaming=no", "-oStrictHostKeyChecking=no", "-oConnectTimeout=30", "-oServerAliveCountMax=30", "-oServerAliveInterval=1", "-oUserKnownHostsFile=/dev/null", "-C", "-L", "0.0.0.0:6379:127.0.0.1:6379", "-N", "pipeline@archivebot.at.ninjawedding.org"]
